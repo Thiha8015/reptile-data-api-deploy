@@ -77,13 +77,13 @@ public class ReptileController {
    * @return 返回信息
    */
   @SaIgnore
-  @PostMapping("/hasBath")
-  public Result<List<String>> hasReptileDataBath(@RequestBody List<String> urls) {
-    List<String> md5s1 = userDataService.listMd5();
+  @PostMapping("/hasBatch")
+  public Result<List<String>> hasReptileDataBatch(@RequestBody List<String> urls) {
+    List<String> existingMd5s = userDataService.listMd5();
     try {
       List<String> md5s =
           new java.util.ArrayList<>(urls.stream().map(url -> MD5.create().digestHex(url)).toList());
-      md5s.removeAll(md5s1);
+      md5s.removeAll(existingMd5s);
       return Result.success(md5s);
     } catch (Exception e) {
       return Result.error(501, "查询失败");
